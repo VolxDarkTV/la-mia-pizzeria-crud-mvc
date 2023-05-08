@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+    //1
+    string Name = "Vincenzo";
+    string Last = "FOTI";
+
+    //2
+    int SumNumbers(int n)
+    {
+        int sum = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            sum += i;
+        }
+        return sum;
+    }
+
+    //3
+    string source = "nel mezzo del cammin di nostra vita";
+    int count = source.Count(f => f == 'a');
+
+    //4
+    List<int> RandomNumber()
+    {
+        List<int> numbers = new();
+        Random rnd = new();
+
+        for(int i=1; i<= 20; i++)
+        {
+            int number = rnd.Next(1, 91);
+            numbers.Add(number);
+        }
+        return numbers;
+    }
+
+    //5
+    DateTime date = DateTime.Now;
+
+    //6
+    DateTime currentDate = DateTime.Now;
+    TimeSpan sevenDays = new TimeSpan(7, 0, 0, 0);
+    DateTime dateLessSeven = currentDate - sevenDays;
+
+
+    string dayOfWeek = DateTime.Today.ToString("dddd");
+
+
+    TimeSpan oneYear = new TimeSpan(365, 0, 0, 0);
+    DateTime addYear = currentDate + oneYear;
+    string nameOfDay = addYear.ToString("dddd");
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <!--1-->
+    <h2>@Name @Last</h2>
+
+    <!--2-->
+    <p>@SumNumbers(3)</p>
+
+    <p>@count</p>
+
+    <!--3-->
+    <ul>
+        @foreach(int number in RandomNumber())
+        {
+            <li>@number</li>
+        }
+    </ul>
+
+    <!--4-->
+    <h3>@date</h3>
+
+    <!--5-->
+    <h6>7 days: </h6>
+    <h5>
+        Time Now: 
+        @dateLessSeven
+    </h5>
+
+    <!--6-->
+    <h6>Giorno di oggi: </h6>
+    <h1>@dayOfWeek</h1>
+
+    <h6>Giorno tra 1 anno: </h6>
+    <h1>@nameOfDay</h1>
+</div>
