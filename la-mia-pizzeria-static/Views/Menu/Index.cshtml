@@ -36,6 +36,10 @@
                                 </div>
 
                                 <div class="d-flex justify-content-around">
+                                    <!--Edit-->
+                                    <a class="btn btn-dark shadow rounded-pill py-2 px-3" href="@Url.Action("Edit", "Menu", new {id = y.Id})">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
                                     <!--View-->
                                     <a class="btn btn-dark shadow rounded-pill py-2 px-3" href="@Url.Action("Details", "Menu", new {id = y.Id})">
                                         <i class="fa-regular fa-eye"></i>
