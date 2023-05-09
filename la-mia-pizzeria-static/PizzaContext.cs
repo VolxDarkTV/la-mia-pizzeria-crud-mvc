@@ -8,7 +8,7 @@ namespace la_mia_pizzeria_static
     public class PizzaContext : DbContext
     {
         public DbSet<Pizza> pizze { get; set; }
-
+        public DbSet<Category> categories { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=PizzaTest;Integrated Security=True;TrustServerCertificate=true");

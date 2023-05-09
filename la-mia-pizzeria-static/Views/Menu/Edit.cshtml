@@ -1,4 +1,4 @@
-﻿@model Pizza
+﻿@model PizzaFormModel
 
 <h1>Create</h1>
 
@@ -7,22 +7,26 @@
         @Html.AntiForgeryToken()
         <div class="mb-3">
             <strong>Nome:</strong>
-            <input asp-for="Nome" class="d-block w-100" />
-            <span asp-validation-for="Nome" class="text-danger"></span>
+            <input asp-for="Pizza.Nome" class="d-block w-100" />
+            <span asp-validation-for="Pizza.Nome" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <strong>Desctizione:</strong>
-            <textarea asp-for="Descrizione" class="d-block w-100"></textarea>
-            <span asp-validation-for="Descrizione" class="text-danger"></span>
+            <textarea asp-for="Pizza.Descrizione" class="d-block w-100"></textarea>
+            <span asp-validation-for="Pizza.Descrizione" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <strong>URL Immagine:</strong>
-            <input asp-for="Image" class="d-block w-100" />
+            <input asp-for="Pizza.Image" class="d-block w-100" />
         </div>
         <div class="mb-3">
             <strong>Price:</strong>
-            <input asp-for="Price" class="d-block w-100" />
-            <span asp-validation-for="Price" class="text-danger"></span>
+            <input asp-for="Pizza.Price" class="d-block w-100" />
+            <span asp-validation-for="Pizza.Price" class="text-danger"></span>
+        </div>
+        <div>
+            <strong>Category:</strong>
+            <select asp-for="Pizza.CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Nome"))"></select>
         </div>
         <div class="text-end">
             <input type="submit" class="btn btn-small btn-info" value="Salva">
