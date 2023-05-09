@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace la_mia_pizzeria_static.Controllers
 {
@@ -19,8 +20,11 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Details(int id)
         {
             using PizzaContext db = new PizzaContext();
-            Pizza pizza = db.pizze.FirstOrDefault(m => m.Id == id);
-            return View("Show", pizza);
+            Pizza pizza = db.pizze.Include(pizza => pizza.Category).FirstOrDefault(m => m.Id == id);
+            if (pizza == null)
+                return NotFound($"La pizza con id {id} non è stata trovata");
+            else
+                return View("Show", pizza);
         }
 
 
