@@ -17,3 +17,15 @@ body {
     font-family: monospace;
     background: #eee;
 }
+
+.hide {
+    display: none;
+    position: absolute;
+    top: -60px;
+    left: 20px;
+    width: 200px;
+    z-index: 1;
+}
+.ingredients:hover + .hide{
+    display: block;
+}
