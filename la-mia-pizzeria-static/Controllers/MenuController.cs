@@ -23,6 +23,7 @@ namespace la_mia_pizzeria_static.Controllers
             using PizzaContext db = new PizzaContext();
             Pizza pizza = db.pizze
                 .Include(pizza => pizza.Category)
+                .Include(pizza => pizza.Ingredients)
                 .FirstOrDefault(m => m.Id == id);
 
             if (pizza == null)
@@ -116,7 +117,7 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Edit(int Id)
         {
             using PizzaContext db = new PizzaContext();
-            Pizza pizzaEdit = db.pizze.FirstOrDefault(pizza => pizza.Id == Id);
+            Pizza pizzaEdit = db.pizze.Include(p => p.Ingredients).FirstOrDefault(pizza => pizza.Id == Id);
 
             if(pizzaEdit == null)
             {
@@ -156,11 +157,29 @@ namespace la_mia_pizzeria_static.Controllers
                 using PizzaContext context = new PizzaContext();
                 List<Category> category = context.categories.ToList();
                 data.Categories = category;
+
+                List<Ingredient> ingredients = context.ingredients.ToList();
+                List<SelectListItem> listIngredients = new List<SelectListItem>();
+                foreach (Ingredient ingredient in ingredients)
+                {
+                    listIngredients.Add(
+                        new SelectListItem()
+                        {
+                            Text = ingredient.Name,
+                            Value = ingredient.Id.ToString(),
+                        }
+                    );
+                }
+
+                data.Ingredients = listIngredients;
+
                 return View("Edit", data);
             }
 
             using PizzaContext db = new PizzaContext();
-            Pizza pizzaEdit = db.pizze.FirstOrDefault(m => m.Id == Id);
+            Pizza pizzaEdit = db.pizze.Include(p => p.Ingredients).FirstOrDefault(m => m.Id == Id);
+
+            pizzaEdit.Ingredients.Clear();
 
             if(pizzaEdit != null)
             {
@@ -170,6 +189,18 @@ namespace la_mia_pizzeria_static.Controllers
                 pizzaEdit.Image = data.Pizza.Image;
                 pizzaEdit.Price = data.Pizza.Price;
                 pizzaEdit.CategoryId = data.Pizza.CategoryId;
+
+                if (data.SelectedIngredients != null)
+                {
+                    foreach (string selectedIngredientId in data.SelectedIngredients)
+                    {
+                        int selectIntIngredientId = int.Parse(selectedIngredientId);
+                        Ingredient ingredient = db.ingredients
+                        .Where(m => m.Id == selectIntIngredientId)
+                        .FirstOrDefault();
+                        pizzaEdit.Ingredients.Add(ingredient);
+                    }
+                }
 
                 db.SaveChanges();
 
