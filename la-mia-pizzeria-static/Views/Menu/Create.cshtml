@@ -28,6 +28,24 @@
             <strong>Category:</strong>
             <select asp-for="Pizza.CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Nome"))"></select>
         </div>
+        <div class="mb-3">
+            <strong>Ingredients:</strong>
+            <select asp-for="SelectedIngredients"
+                    multiple="multiple"
+                    size="10"
+                    class="form-control mb-2 mr-sm-2 ml-sm-3 leftList"
+                    asp-items="@Model.Ingredients">
+            </select>
+
+           @* @foreach (var ingredient in Model.Ingredients)
+            {
+                <div>
+                    <input id="@ingredient.Value" type="checkbox" asp-for="@ingredient.Selected" name="SelectedIngredients" />
+                    <label for="@ingredient.Value">@ingredient.Text</label>
+                </div>
+            }*@
+
+        </div>
         <div class="text-end">
             <input type="submit" class="btn btn-small btn-info" value="Salva">
         </div>
