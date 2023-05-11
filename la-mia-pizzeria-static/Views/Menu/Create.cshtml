@@ -30,20 +30,20 @@
         </div>
         <div class="mb-3">
             <strong>Ingredients:</strong>
-            <select asp-for="SelectedIngredients"
+            @*<select asp-for="SelectedIngredients"
                     multiple="multiple"
                     size="10"
                     class="form-control mb-2 mr-sm-2 ml-sm-3 leftList"
                     asp-items="@Model.Ingredients">
-            </select>
+            </select>*@
 
-           @* @foreach (var ingredient in Model.Ingredients)
+           @foreach (var ingredient in Model.Ingredients)
             {
                 <div>
-                    <input id="@ingredient.Value" type="checkbox" asp-for="@ingredient.Selected" name="SelectedIngredients" />
+                    <input id="@ingredient.Value" type="checkbox" name="SelectedIngredients" value="@ingredient.Value" />
                     <label for="@ingredient.Value">@ingredient.Text</label>
                 </div>
-            }*@
+            }
 
         </div>
         <div class="text-end">
