@@ -5,13 +5,21 @@
 <div class="text-center">
     
     @section SubTitle {
-        <h1 class="mt-5">Benvenuti nella Home!</h1>
+        <h1 class="text-center fw-bolder">
+            Benvenuti da <a class="fs-1 text-decoration-none text-light btn btn-dark py-0 px-3 rounded-pill" asp-controller="Menu" asp-action="Index"><span class="text-danger">Piz</span>zaPa<span class="text-success">zza</span></a>
+        </h1>
     }
 
+    @if (User.IsInRole("ADMIN"))
+    {
+        <p>
+            Benvenuto <span class="badge bg-success">ADMIN</span> => <span class="badge bg-info">@User.Identity.Name</span>
+        </p>
+    }
 
     <section class="container">
-        <div>
-           <img src="~/img/pizzabanner.jpeg" alt="Banner Pizza 404"/>
+        <div class="rounded-pill">
+           <img class="rounded-pill" src="~/img/pizzabanner.jpeg" alt="Banner Pizza 404"/>
         </div>
     </section>
 </div>

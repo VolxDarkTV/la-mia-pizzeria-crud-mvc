@@ -20,9 +20,15 @@
     {
         <p>@ViewData["message"]</p>
     }
-    @if(Model.Count > 0)
-    {
-        <section class="container">
+    <section class="container">
+        @if (User.IsInRole("ADMIN"))
+        {
+            <div class="nav-item btn btn-dark rounded-pill py-0 px-3 text-light">
+                <a class="nav-link text-light fw-bolder" asp-area="" asp-controller="Menu" asp-action="Create">Create Pizza</a>
+            </div>
+        }
+        @if(Model.Count > 0)
+        {
             <ul class="cards row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex flex-wrap">
                 @foreach(var y in Model)
                 {
@@ -62,10 +68,10 @@
                     </li>
                 }
             </ul>
-        </section>
-    }
-    else
-    {
-        <h1>Not Found 404</h1>
-    }
+        }
+        else
+        {
+            <h1>Not Found 404</h1>
+        }
+    </section>
 </div>

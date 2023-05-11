@@ -38,10 +38,16 @@
             </select>*@
             @foreach (var ingredient in Model.Ingredients)
             {
+                <!--Controlla la foreach nel MenuController per iterare gli Id degli elementi selezionati-->
                 <div>
-                    <input id="@ingredient.Value" type="checkbox" name="SelectedIngredients" value="@ingredient.Value" checked="@Model.SelectedIngredients.Contains(ingredient.Value.ToString())" />
-                    <label for="@ingredient.Value">@ingredient.Text</label>
+                <input id="@ingredient.Value" type="checkbox" name="SelectedIngredients" value="@ingredient.Value" checked="@Model.SelectedIngredients.Contains(ingredient.Value)" />
+                <label for="@ingredient.Value">@ingredient.Text</label>
                 </div>
+                @*<div>
+                    <input id="@ingredient.Value" type="checkbox" name="SelectedIngredients" value="@ingredient.Value" checked="@Model.Ingredients.Any(x => x.Value == ingredient.Value && x.Selected)" />
+                    <label for="@ingredient.Value">@ingredient.Text</label>
+                </div>*@
+
             }
         </div>
         <div class="text-end">
