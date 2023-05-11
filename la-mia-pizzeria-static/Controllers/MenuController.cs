@@ -1,4 +1,5 @@
 ﻿using la_mia_pizzeria_static.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ namespace la_mia_pizzeria_static.Controllers
 {
     public class MenuController : Controller
     {
+        [HttpGet]
         public IActionResult Index(string? message)
         {
             using (PizzaContext db = new PizzaContext())
@@ -18,6 +20,8 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+        [Authorize (Roles = "ADMIN, USER")]
+        [HttpGet]
         public IActionResult Details(int id)
         {
             using PizzaContext db = new PizzaContext();
@@ -32,7 +36,7 @@ namespace la_mia_pizzeria_static.Controllers
                 return View("Show", pizza);
         }
 
-
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -58,6 +62,7 @@ namespace la_mia_pizzeria_static.Controllers
             return View("Create", model);
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(PizzaFormModel data)
@@ -113,12 +118,12 @@ namespace la_mia_pizzeria_static.Controllers
 
 
         //Edit Method
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Edit(int Id)
         {
             using PizzaContext db = new PizzaContext();
             Pizza pizzaEdit = db.pizze.Include(p => p.Ingredients).FirstOrDefault(pizza => pizza.Id == Id);
-
             if(pizzaEdit == null)
             {
                 return NotFound();
@@ -129,7 +134,14 @@ namespace la_mia_pizzeria_static.Controllers
                 PizzaFormModel model = new PizzaFormModel();
                 model.Pizza = pizzaEdit;
                 model.Categories = category;
-                
+                model.SelectedIngredients = new List<string>();
+                //Aggiungo alla SelectedIngredients gli Id degli elementi
+                foreach(var ingredient in pizzaEdit.Ingredients)
+                {
+                    model.SelectedIngredients.Add(ingredient.Id.ToString());
+                }
+
+
                 List<Ingredient> ingredients = db.ingredients.ToList();
                 List<SelectListItem> listIngredients = new List<SelectListItem>();
                 foreach (Ingredient ingredient in ingredients)
@@ -148,6 +160,7 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit (int Id, PizzaFormModel data)
@@ -216,6 +229,7 @@ namespace la_mia_pizzeria_static.Controllers
 
 
         //Delete Method
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
