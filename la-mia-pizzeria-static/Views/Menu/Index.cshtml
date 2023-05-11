@@ -9,11 +9,11 @@
     };
 }
 
-<h1>Menu</h1>
+
 <div class="text-center">
 
     @section SubTitle {
-        <h1>Benvenuti nel Menù!</h1>
+        <h1 class="text-center">Menù</h1>
     }
     <!--Delete Confirm-->
     @if (ViewData["message"] != null)
@@ -23,7 +23,7 @@
     <section class="container">
         @if (User.IsInRole("ADMIN"))
         {
-            <div class="nav-item btn btn-dark rounded-pill py-0 px-3 text-light">
+            <div class="nav-item btn btn-dark rounded-pill py-0 px-3 text-light mb-3">
                 <a class="nav-link text-light fw-bolder" asp-area="" asp-controller="Menu" asp-action="Create">Create Pizza</a>
             </div>
         }
