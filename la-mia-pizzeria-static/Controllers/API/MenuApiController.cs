@@ -13,12 +13,17 @@ namespace la_mia_pizzeria_static.Controllers.API
     {
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string? search)
         {
             using (PizzaContext db = new PizzaContext())
             {
                 List<Pizza> pizza;
                 pizza = db.pizze.Include(pizza => pizza.Ingredients).ToList<Pizza>();
+
+                if(search != null)
+                {
+                    pizza = pizza.Where(p => p.Nome.ToLower().Contains(search.ToLower())).ToList();
+                }
                 return Ok(pizza);
             }
         }
@@ -53,5 +58,67 @@ namespace la_mia_pizzeria_static.Controllers.API
             return Ok();
         }
 
+        [HttpPut ("{id}")]
+        public IActionResult Edit(int Id, [FromBody] Pizza data)
+        {
+
+            using PizzaContext db = new PizzaContext();
+            Pizza pizzaEdit = db.pizze.Include(p => p.Ingredients).FirstOrDefault(m => m.Id == Id);
+
+            pizzaEdit.Ingredients.Clear();
+
+            if (pizzaEdit != null)
+            {
+
+                pizzaEdit.Nome = data.Nome;
+                pizzaEdit.Descrizione = data.Descrizione;
+                pizzaEdit.Image = data.Image;
+                pizzaEdit.Price = data.Price;
+                pizzaEdit.CategoryId = data.CategoryId;
+
+                if (data.Ingredients != null)
+                {
+                    foreach (Ingredient i in data.Ingredients)
+                    {
+                        int selectIntIngredientId = i.Id;
+                        Ingredient ingredient = db.ingredients
+                        .Where(m => m.Id == selectIntIngredientId)
+                        .FirstOrDefault();
+                        pizzaEdit.Ingredients.Add(ingredient);
+                    }
+                }
+
+                db.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        [HttpDelete ("{id}")]
+        public IActionResult Delete(int id)
+        {
+            using PizzaContext db = new PizzaContext();
+            Pizza pizzaToDelete = db.pizze.Where(m => m.Id == id).FirstOrDefault();
+
+            if (pizzaToDelete != null)
+            {
+                db.pizze.Remove(pizzaToDelete);
+                db.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
     }
+
 }

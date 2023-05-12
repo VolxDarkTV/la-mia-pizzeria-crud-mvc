@@ -18,6 +18,7 @@ namespace la_mia_pizzeria_static
                 .AddRoles<IdentityRole>()                   //Add Roles
                 .AddEntityFrameworkStores<PizzaContext>();
 
+            //Fixed API JSON Cycles
             builder.Services.AddControllers()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
