@@ -32,9 +32,12 @@
             <ul class="cards row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex flex-wrap">
                 @foreach(var y in Model)
                 {
-                    <li>
-                        <div class="card shadow">
-                            <div class="card_image"><img src="@y.Image" alt="mixed vegetable salad in a mason jar. "></div>
+                    <li class="card shadow">
+                        <div>
+                            <!--Image-->
+                            <div class="card_image rounded">
+                                <img class="rounded" src="@y.Image" alt="mixed vegetable salad in a mason jar. ">
+                            </div>
                             <div class="card_content">
                                 <h2 class="card_title">@y.Nome &#x2022; $@y.Price</h2>
                                 <div class="card_text">
@@ -43,24 +46,31 @@
 
                                
                                 <div class="d-flex justify-content-around">
-                                    <!--Edit-->
-                                    <a class="btn btn-dark shadow rounded-pill py-2 px-3" href="@Url.Action("Edit", "Menu", new {id = y.Id})">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
+                                    @if (User.IsInRole("ADMIN"))
+                                    {
+                                        <!--Edit-->
+                                        <a class="btn btn-dark shadow rounded-pill py-2 px-3" href="@Url.Action("Edit", "Menu", new {id = y.Id})">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                    }
+
                                     <!--View-->
-                                    <a class="btn btn-dark shadow rounded-pill py-2 px-3" href="@Url.Action("Details", "Menu", new {id = y.Id})">
+                                    <a class="position-absolute end-0 top-0 btn btn-dark shadow rounded-pill py-2 px-3" href="@Url.Action("Details", "Menu", new {id = y.Id})">
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
 
-                                    <!--Delete-->
-                                    <form asp-controller="Menu" asp-action="Delete" asp-route-id="@y.Id" method="post">
+                                    @if (User.IsInRole("ADMIN"))
+                                    {
+                                        <!--Delete-->
+                                        <form asp-controller="Menu" asp-action="Delete" asp-route-id="@y.Id" method="post">
 
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-danger shadow rounded-pill py-2 px-3">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger shadow rounded-pill py-2 px-3">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
 
-                                    </form> 
+                                        </form> 
+                                    }
                                 </div>
 
                             </div>

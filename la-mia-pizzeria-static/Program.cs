@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using la_mia_pizzeria_static;
+using System.Text.Json.Serialization;
+
 namespace la_mia_pizzeria_static
 {
     public class Program
@@ -15,6 +17,9 @@ namespace la_mia_pizzeria_static
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()                   //Add Roles
                 .AddEntityFrameworkStores<PizzaContext>();
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
